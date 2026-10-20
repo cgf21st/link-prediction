@@ -1,0 +1,34 @@
+function [sim] =CMNC_RWMW(train,x)
+    [n,m]=size(train);
+    A = train;
+     recip = nnz(train.*train')/2/nnz(train);
+G = digraph(A);
+n = numnodes(G);
+hub1 = centrality(G,'outcloseness');
+hub2 = centrality(G,'incloseness');
+hub3 = centrality(G,'indegree');
+hub4 = centrality(G,'outdegree');
+hub5 = centrality(G,'pagerank');
+hub6 = centrality(G,'hubs');
+hub7 = centrality(G,'authorities');
+D = [hub1(:), hub2(:), hub3(:), hub4(:), hub5(:), hub6(:), hub7(:)];
+n = size(D,1);
+Dn = (D - min(D)) ./ (max(D) - min(D) + eps);
+sigma = std(Dn, 0, 1);                       % 对比强度
+R = corrcoef(Dn);                            % 相关系数矩阵
+conflict = sum(1 - R, 1);                    % 冲突性
+C = sigma .* conflict;                       % 信息量
+ w = C / sum(C);
+%   w = (C - mean(C)) ./ (std(C) + eps); 
+%  w=1./(exp(-C)+1);
+%% (C) 乘法组合（放大差异）
+% w = (w_critic);
+% w = w / sum(w);
+%% ========== 7. 加权线性组合 ==========
+S = zeros(n, n);
+for i = 1:7
+    S = S + w(i)* (D(:,i) * D(:,i)');
+end
+  RW=(temp+temp*temp+temp*temp*temp)/3;
+    sim =(S+x*RW);
+end 

@@ -1,8 +1,7 @@
 function [sim] =CMNC_RWMW(train,x)
     [n,m]=size(train);
-    A = train;
      recip = nnz(train.*train')/2/nnz(train);
-G = digraph(A);
+G = digraph(train);
 n = numnodes(G);
 hub1 = centrality(G,'outcloseness');
 hub2 = centrality(G,'incloseness');

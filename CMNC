@@ -19,12 +19,6 @@ R = corrcoef(Dn);                            % 相关系数矩阵
 conflict = sum(1 - R, 1);                    % 冲突性
 C = sigma .* conflict;                       % 信息量
  w = C / sum(C);
-%   w = (C - mean(C)) ./ (std(C) + eps); 
-%  w=1./(exp(-C)+1);
-%% (C) 乘法组合（放大差异）
-% w = (w_critic);
-% w = w / sum(w);
-%% ========== 7. 加权线性组合 ==========
 S = zeros(n, n);
 for i = 1:7
     S = S + w(i)* (D(:,i) * D(:,i)');
